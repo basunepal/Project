@@ -25,6 +25,13 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(80))
 
+class News(db.Model):
+    title = db.Column(db.String(250), primary_key=True)
+    desc = db.Column(db.String(600))
+    img = db.Column(db.String(200))
+    content = db.Column(db.String(1500))
+    url =  db.Column(db.String(200))
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -41,7 +48,7 @@ class RegisterForm(FlaskForm):
 
 def GetNews(source,ctr):
     newsapi = NewsApiClient(api_key="38122ac1faf54ee2acdbc704e062cd89")
-    topheadlines = newsapi.get_top_headlines(sources=source, category=ctr, page_size=90, page=1,language='en')
+    topheadlines = newsapi.get_top_headlines(sources=source, category=ctr, page_size=90,language='en')
 
     articles = topheadlines['articles']
 
@@ -56,6 +63,14 @@ def GetNews(source,ctr):
         desc.append(myarticles['description'])
         img.append(myarticles['urlToImage'])
         url.append(myarticles['url'])
+        
+        news_title = News.query.filter_by(title=myarticles['title']).first()
+        if news_title:
+            None
+        else:
+            new_news = News(title = myarticles['title'], desc = myarticles['description'], img = myarticles['urlToImage'], content = myarticles['content'], url = myarticles['url'])
+            db.session.add(new_news)
+            db.session.commit()
 
     myList = zip(news, desc, img, url)    
     return myList
@@ -63,6 +78,10 @@ def GetNews(source,ctr):
 
 @app.route('/')
 def index():
+
+    #new_news = News(id=22,title="RAM")
+   #db.session.add(new_news)
+    #db.session.commit()
     
     return render_template('index.html')
 
@@ -120,6 +139,8 @@ def dashboard():
     """
     
     dash = GetNews(source="bbc-news,the-verge,axios,ary-news,ansa,abc-news", ctr=None)
+
+    #dash = 
 
     return render_template('dashboard.html', name=current_user.username, context=dash)
 
