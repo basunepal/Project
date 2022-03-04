@@ -1,7 +1,7 @@
 {% extends "bootstrap/base.html" %}
 
 {% block title %}
-Demo App
+Online News Portal
 {% endblock %}
 
 {% block styles %}
@@ -19,7 +19,7 @@ Demo App
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Project name</a>
+          <a class="navbar-brand" href="#">Online News Portal</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
@@ -31,12 +31,43 @@ Demo App
       </div>
     </nav>
 
-    <div class="container">
-      <div class="starter-template">
-        <h3>THIS IS NEWS APPLICATION WITH MACHINE LEARNING FOR CLASSIFICATION.<h3> <br> <h2>Please login/Sign Up to continue...
+    <div class="row">
 
-    </div><!-- /.container -->
+      <div class="col-md-12 bg-primary text-white rounded">
+        <center>
+          <h2>
+            <br>
+            Online News Portal
+            <br>
+          </h2>
+          Select to continue...
+        </center>
+      </div>
    
+<p> </p>
+      <center>
+    <div class="col-md-4 margin">
+      <a href="{{ url_for('signup')}}">
+      <img src="static/new.png" class="img-circle" alt="Cinque Terre" width="200" height="200"> 
+      <h2>New User</h2>  
+    </a>
+    </div>
+    <div class="col-md-4">
+      <a href="{{ url_for('login')}}">
+      <img src="static/register.png" class="img-circle" alt="Cinque Terre" width="200" height="200"> 
+      <h2>Registered User</h2>   
+      </a>
+    </div>
+   
+    <div class="col-md-4">
+      <a href="{{ url_for('logout')}}">
+      <img src="static/guest.png" class="img-circle" alt="Cinque Terre" width="200" height="200"> 
+      <h2>Guest User</h2>   
+      </a>  
+    </div>
+  </center>
+
+  </div>
       
     
 {% endblock %}
