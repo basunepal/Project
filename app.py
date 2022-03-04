@@ -9,7 +9,7 @@ from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from matplotlib.style import context
 from sqlalchemy import CHAR, desc 
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, SelectField
 from wtforms import validators
 from wtforms.validators import InputRequired, Email, Length
 from flask_sqlalchemy import SQLAlchemy
@@ -154,7 +154,7 @@ def signup():
 
     return render_template('signup.html', form=form)
 
-@app.route('/dashboard')
+@app.route('/dashboard',methods=['GET','POST'])
 @login_required
 def dashboard():
     
@@ -223,13 +223,13 @@ def upload():
         # print(prediction)
 
         # print("here")
-        # news_title = News.query.filter_by(title=form.title.data).first()
-        # if news_title:
-        #     None
-        # else:
-        #     new_news = News(title = form.title.data, desc = form.desc.data, img = None, content = None, url = None, ctr = None)
-        #     db.session.add(new_news)
-        #     db.session.commit()
+        news_title = News.query.filter_by(title=form.title.data).first()
+        if news_title:
+            None
+        else:
+            new_news = News(title = form.title.data, desc = form.desc.data, img = None, content = None, url = None, ctr = None)
+            db.session.add(new_news)
+            db.session.commit()
         
         return redirect(url_for('processing', title = form.title.data, desc= form.desc.data))
 
@@ -274,6 +274,10 @@ def dbnews():
     print("done")
     
     return render_template('dbnews.html', name=current_user.username, context=[health,business,sports,technology,entertainment])
+
+@app.route('/guest')
+def guest():
+    return render_template('guest.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
