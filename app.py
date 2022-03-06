@@ -96,7 +96,7 @@ def GetNewsOnline(source,ctr):
     return myList
 
 
-def GetNews(source,ctr):
+def GetNews(source,ctr=None):
 
     db_news = News.query.all()
 
@@ -105,8 +105,15 @@ def GetNews(source,ctr):
     img = []
     url = []
 
-    for n in reversed(db_news):
-        if n.ctr == ctr:
+    if ctr:
+        for n in reversed(db_news):
+            if n.ctr == ctr:
+                news.append(n.title)
+                desc.append(n.desc)
+                img.append(n.img)
+                url.append(n.url)
+    else:
+        for n in reversed(db_news):
             news.append(n.title)
             desc.append(n.desc)
             img.append(n.img)
@@ -277,7 +284,10 @@ def dbnews():
 
 @app.route('/guest')
 def guest():
-    return render_template('guest.html')
+
+    guest = GetNews(source=None,ctr=None)
+
+    return render_template('guest.html',context=guest)
 
 if __name__ == '__main__':
     app.run(debug=True)
