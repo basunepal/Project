@@ -5,6 +5,7 @@ import seaborn as sns
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
@@ -87,6 +88,9 @@ labels_test = y_test
 
 LR = LogisticRegression(C=1)
 LR.fit(features_train, labels_train)
+
+LR = DecisionTreeClassifier()
+LR.fit()
 
 #PREDICTIONS
 
